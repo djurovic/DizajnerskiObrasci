@@ -29,15 +29,17 @@ import view.MainFrame;
 public class ObjectSerializationStrategy implements Strategy {
 	
 	private MainFrame mf;
+	private JFileChooser jfc;
 	
 	public ObjectSerializationStrategy(MainFrame mf) {
 		this.mf = mf;
+		this.jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	}
 
 	@Override
 	public void readShapes() {
 		// TODO Auto-generated method stub
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		File selectedFile;
 
 		int returnValue = jfc.showOpenDialog(mf);
@@ -105,8 +107,9 @@ public class ObjectSerializationStrategy implements Strategy {
 	@Override
 	public void writeShapes() {
 		// TODO Auto-generated method stub
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		File selectedFile;
+		 
 
 		int returnValue = jfc.showSaveDialog(mf);
 		// int returnValue = jfc.showSaveDialog(null);
@@ -114,7 +117,7 @@ public class ObjectSerializationStrategy implements Strategy {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFile = jfc.getSelectedFile();
 			
-			String fileName = selectedFile.getName();
+			String fileName = selectedFile.getName() + ".obj";
 			
 			String newFilePath = selectedFile.getAbsolutePath();
 			try {
@@ -126,6 +129,8 @@ public class ObjectSerializationStrategy implements Strategy {
 		         fileOut.close();
 		         System.out.println("Serialized successfully");
 		      } catch (IOException i) {
+		    	  System.out.println(i.getMessage());
+		    	  
 		         i.printStackTrace();
 		      } 
 		}

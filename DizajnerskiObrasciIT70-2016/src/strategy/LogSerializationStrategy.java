@@ -18,6 +18,7 @@ import command.BringToFrontCommand;
 import command.DeleteCommand;
 import command.DrawCommand;
 import command.EditCommand;
+import command.SelectCommand;
 import command.ShapeCommand;
 import command.ToBackCommand;
 import command.ToFrontCommand;
@@ -59,6 +60,19 @@ public class LogSerializationStrategy implements Strategy {
 					String command = line.split("-")[0];					
 					
 					switch (command) {
+						case "SelectCommand":
+							String indexKeyValue = line.split("-")[1];
+							String indexValue = indexKeyValue.split("=")[1];
+							int selectedIndex = Integer.valueOf(indexValue);
+							Shape foundShape = mf.getCanvas().getShapes().getShapes().get(selectedIndex);
+							
+							int reply11 = JOptionPane.showConfirmDialog(mf, line, "Confirm command", JOptionPane.YES_NO_OPTION);
+				            if (reply11 == JOptionPane.YES_OPTION) {
+				            	SelectCommand cmd = new SelectCommand(foundShape, mf.getCanvas().getShapes(), selectedIndex);						
+				            	mf.getCmdManager().doCommand(cmd);
+								mf.getCanvas().repaint();
+				            }							
+							break;
 						case "DrawCommand":
 							String shape = line.split("-")[1];
 							
@@ -199,14 +213,20 @@ public class LogSerializationStrategy implements Strategy {
 								mf.getCanvas().repaint();
 				            }
 				            break;
-						case "Undo":
-							mf.getCmdManager().undo();
-							mf.getCanvas().repaint();
-							break;
+						case "Undo":							
+							int reply7 = JOptionPane.showConfirmDialog(mf, line, "Confirm command", JOptionPane.YES_NO_OPTION);
+				            if (reply7 == JOptionPane.YES_OPTION) {
+				            	mf.getCmdManager().undo();
+								mf.getCanvas().repaint();
+				            }
+				            break;
 						case "Redo":
-							mf.getCmdManager().redo();
-							mf.getCanvas().repaint();
-							break;
+							int reply8 = JOptionPane.showConfirmDialog(mf, line, "Confirm command", JOptionPane.YES_NO_OPTION);
+				            if (reply8 == JOptionPane.YES_OPTION) {
+				            	mf.getCmdManager().redo();
+								mf.getCanvas().repaint();
+				            }
+				            break;
 					}	
 					
 					

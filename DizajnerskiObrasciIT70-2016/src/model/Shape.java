@@ -83,6 +83,12 @@ public abstract class Shape extends Observable implements Movable, Comparable, S
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Shape [colorString=" + colorString + ", selected=" + selected + ", deleted=" + deleted + ", color="
+				+ color + ", name=" + name + "]";
 	}	
 	
 	

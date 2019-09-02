@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.Observer;
 
 import command.DrawCommand;
+import command.SelectCommand;
 import view.CanvasPanel;
 import view.DlgAddModifyCircle;
 import view.DlgAddModifyHexagon;
@@ -35,8 +36,6 @@ public class CanvasMouseAdapter extends MouseAdapter {
 		} else {
 			drawAction(e);
 		}
-		
-		
 		
 	}
 	
@@ -112,17 +111,23 @@ public class CanvasMouseAdapter extends MouseAdapter {
 	public void selectAction(MouseEvent e) {
 		// ako ostane -1 na kraju izvrsavanja fora, to znaci da ne postoji element na poziciji klika
 		int selectedShapeIndex = -1;
+		Shape selected = null;
 		
 		int index = 0;
 		for (Shape s: mf.getCanvas().getShapes().getShapes()) {
 			if (s.contains(e.getX(), e.getY())) {
+				selected = s;
 				selectedShapeIndex = index;
 			}
 			index++;
 		}
 		
 		if (selectedShapeIndex != -1) {
-			mf.getCanvas().getShapes().toggleSelectShape(selectedShapeIndex);
+			
+			SelectCommand cmd = new SelectCommand(selected, mf.getCanvas().getShapes(), selectedShapeIndex);
+			mf.getCmdManager().doCommand(cmd);
+			
+//			mf.getCanvas().getShapes().toggleSelectShape(selectedShapeIndex);
 		}
 		
 		

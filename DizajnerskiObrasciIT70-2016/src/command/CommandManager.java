@@ -52,7 +52,7 @@ public class CommandManager implements Serializable {
             // Undo the command, or return it to whatever called this to be undone, or something
             commandToUndo.unexecute();
             
-            mf.logCommand("Undo");
+            mf.logCommand("Undo-" + commandToUndo.toString());
             
 //            if (commandToUndo instanceof DeleteCommand) {
 //	            DeleteCommand prevCmd = ((DeleteCommand) commandToUndo).getPrevCmd();
